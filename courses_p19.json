@@ -1,0 +1,134 @@
+[
+  {
+    "book_category": "精神科",
+    "detailed_book_category": "精神醫學",
+    "book_name": "In Clinical Practice Series: Schizophrenia",
+    "book_number": "8519S2-0250",
+    "price": "1,100",
+    "selling_price": "990",
+    "isbn": "0443102503／9780443102509",
+    "author_translator": "Jones／Churchill",
+    "edition": "2006/1"
+  },
+  {
+    "book_category": "護理學",
+    "detailed_book_category": "護理學",
+    "book_name": "Medical-Surgical Nursing Certification Exam Review (IE)",
+    "book_number": "90030A-6280",
+    "price": "600",
+    "selling_price": "540",
+    "isbn": "9780071262804",
+    "author_translator": "Plantz／McGraw-Hill",
+    "edition": "07／1／1"
+  },
+  {
+    "book_category": "護理學",
+    "detailed_book_category": "護理學",
+    "book_name": "Essentials of Nursing Informatics (IE)",
+    "book_number": "901236-4842",
+    "price": "750",
+    "selling_price": "375",
+    "isbn": "0071248420／9780071248426",
+    "author_translator": "Saba／McGraw-Hill",
+    "edition": "06／4／1"
+  },
+  {
+    "book_category": "護理學",
+    "detailed_book_category": "護理學",
+    "book_name": "Wongs Nursing Care of Infants and Children with CD-ROM",
+    "book_number": "90550-3963",
+    "price": "3,100",
+    "selling_price": "1,550",
+    "isbn": "9780323039635",
+    "author_translator": "*Hockenberry／Mosby",
+    "edition": "07／8／1"
+  },
+  {
+    "book_category": "護理學",
+    "detailed_book_category": "護理學",
+    "book_name": "Nursing Diagnosis: Application to Clinical Practice",
+    "book_number": "9080-6131",
+    "price": "1,200",
+    "selling_price": "600",
+    "isbn": "078176131X／9780781761314",
+    "author_translator": "Carpenito-Moyet／Lippincott",
+    "edition": "06／11／1"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Introduction to the Pharmaceutical Sciences",
+    "book_number": "95113-4478",
+    "price": "1,700",
+    "selling_price": "1,530",
+    "isbn": "9780781744782",
+    "author_translator": "Pandit／Lippincott",
+    "edition": "2006/1"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Aultons Pharmaceutics The Design ＆ Manufacture of Medicines (IE)",
+    "book_number": "95116-0107",
+    "price": "1,650",
+    "selling_price": "1,485",
+    "isbn": "9780443101076",
+    "author_translator": "Aulton／Churchill",
+    "edition": "2007/3"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Applied Pharmacokinetics and Pharmacodynamics: Principles of Therapeutic Drug Monitoring",
+    "book_number": "95117B-4431",
+    "price": "2,000",
+    "selling_price": "1,800",
+    "isbn": "9780781744317",
+    "author_translator": "Burton／LWW",
+    "edition": "2006/4"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Clinical Pharmacokinetics Handbook (IE)",
+    "book_number": "95117P-0492",
+    "price": "550",
+    "selling_price": "495",
+    "isbn": "0071104925／9780071104920",
+    "author_translator": "Bauer／McGraw-Hill",
+    "edition": "2006/1"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Nonprescription Product Therapeutics",
+    "book_number": "95211-3498",
+    "price": "2,800",
+    "selling_price": "2,520",
+    "isbn": "0781734983／9780781734981",
+    "author_translator": "Pray／Lippincott",
+    "edition": "2006/2"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Textbook of Therapeutics Drug and Disease Management",
+    "book_number": "9521-7529",
+    "price": "3,500",
+    "selling_price": "3,150",
+    "isbn": "9780781775298",
+    "author_translator": "*Helm／Lippincott",
+    "edition": "2006/8"
+  },
+  {
+    "book_category": "藥學／藥物資詢",
+    "detailed_book_category": "藥學／藥物資詢",
+    "book_name": "Manual of Overdoses and Poisonings",
+    "book_number": "9532-5498",
+    "price": "780",
+    "selling_price": "702",
+    "isbn": "0781754984／9780781754989",
+    "author_translator": "Linden／Lippincott",
+    "edition": "2006/1"
+  }
+]
