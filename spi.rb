@@ -9,135 +9,84 @@ class Spider
   attr_reader :semester_list, :courses_list, :query_url, :result_url
 
   def initialize
-  	@query_url = "http://hochitw.com/index_down.php"
-  	@result_url = "https://sea.cc.ntpu.edu.tw/pls/dev_stud/course_query_all.queryByKeyword"
-    @front_url = "http://hochitw.com/index_down.php"
+  	@query_url = "http://www.jcbooks.com.tw/default.aspx"
+    @front_url = "http://www.jcbooks.com.tw/"
+    @next_page_url = "&startno="
   end
 
   def prepare_post_data
     r = RestClient.get @query_url
-    query_page = Nokogiri::HTML(r.to_s)
-
-    puts "post data preparing......."
-    # 撈第一次資料，拿到 hidden 的表單驗證。 
-    @searchfirestime = 1
-    @sele = 'searchRS'
-    @advsearch_ai = 'ai'
-    @searchPCON1 = 'ItemName'
-    @searchname1_bigsmall = 'LIKE'
-    @Submit = '開始檢索'
-    @Page = 4
-
+    ic = Iconv.new("utf-8//translit//IGNORE","big-5")
+    @query_page = Nokogiri::HTML(ic.iconv(r.to_s))
     nil
   end
 
-  def get_courses(sem = 0)
+  def get_books
   	# 初始 courses 陣列
     @books = []
-    puts "getting courses\n"
-    # 把表單驗證，還有要送出的資料弄成一包 hash
-    post_data = {
-      # 看是第幾學年度，預設用最新的
-      :searchfirestime => @searchfirestime,
-      :sele => @sele,
-      :advsearch_ai => @advsearch_ai,
-      :searchPCON1 => @searchPCON1,
-      :searchname1_bigsmall => @searchname1_bigsmall,
-      :Submit => @Submit,
-      :Page => @Page
-    }
+    puts "getting books...\n"
+    # 一一點進去YO
+    @query_page.css('td.link a').each_with_index do |row, index|
+      # get every link to every classification
+      # puts @front_url + row['href'].to_s
 
-    @progress = 0
-    @all_task = 20*14.0
-    puts @all_task
+      if (@front_url + row['href'].to_s) == "http://www.jcbooks.com.tw/booklist.aspx?KNDCD=P110"
+        next
+      end
 
-    (1..20).each do |page|
+      r = RestClient.get @front_url + row['href'].to_s
+      ic = Iconv.new("utf-8//translit//IGNORE","big-5")
+      hello_books = Nokogiri::HTML(ic.iconv(r.to_s))
       
-      puts "page #{page}"
-      post_data[:Page] = page
-      r = RestClient.post(query_url, post_data)
-      ic = Iconv.new("utf-8//translit//IGNORE","utf-8")
-      @list = Nokogiri::HTML(ic.iconv(r.to_s))
+      # print out 有幾頁
+      puts "you got " + hello_books.css('span#ctl00_ContentPlaceHolder1_lbTpage').text + " pages here"
 
-      # test
-      # puts @list.css('table')[241].css('a')[2]['href'].to_s
-
-      @tmp_rul = ""
-      @now_url = ""
-      i = 241
-      14.times {
-        @now_url = @list.css('table')[i].css('a')[2]['href'].to_s
-        while @now_url == @tmp_rul do
-          i += 1
-          @tmp_rul = @list.css('table')[i].css('a')[2]['href'].to_s
-        end
-
-        if @tmp_rul == ""
-          puts "hi"
+      # 做很多次 YO
+      hello_books.css('span#ctl00_ContentPlaceHolder1_lbTpage').text.to_i.times do |n| 
+        # 從零開始做 注意！
+        if n != 0
+          r = RestClient.get @front_url + row['href'].to_s + @next_page_url + (n*20).to_s
+          puts @front_url + row['href'].to_s + @next_page_url + (n*20).to_s
         else
-          @now_url = @list.css('table')[i].css('a')[2]['href'].to_s
+          r = RestClient.get @front_url + row['href'].to_s
+          puts @front_url + row['href'].to_s
         end
+        ic = Iconv.new("utf-8//translit//IGNORE","big-5")
+        page = Nokogiri::HTML(ic.iconv(r.to_s))
 
-        puts @now_url
-        # jump to next
-        puts "i is #{i}"
-        i += 1
+        # 解析網頁，先把書名拿出來
+        page.css('td.search2 div.brike a').each_with_index do |row, index|
+          book_name = row.text
+          sub_url = @front_url + row['href']
+          puts sub_url
+          author = page.css('td.search2 > a')[index].text
+          publish_year = page.css('td.search2:nth-of-type(3)')[index].text
+          jcbooks_ISBN = page.css('td.search2:nth-of-type(4)')[index].text
+          isbn = page.css('td.search5')[index].text
+          price =page.css('td.search6')[index].text
 
-
-        # appending string to a usable url & get data
-        rr = RestClient.get(@front_url + @now_url)
-        # get detail things
-        ic = Iconv.new("utf-8//translit//IGNORE","utf-8")
-        @detail = Nokogiri::HTML(ic.iconv(rr.to_s))
-        # puts 詳細資料
-        book_category = @detail.css('table')[254].css('a')[0].text
-        detailed_book_category = @detail.css('table')[254].css('a')[1].text
-        book_name = @detail.css('table')[254].css('font').text
-        book_number = @detail.css('table')[254].css('div')[3].text
-        price = @detail.css('table')[254].css('div')[5].text
-        selling_price = @detail.css('table')[254].css('div')[7].text
-        isbn = @detail.css('table')[254].css('div')[9].text
-        if @detail.css('table')[254].css('div')[11].nil?
-          author_translator = "無"
-        else
-          author_translator = @detail.css('table')[254].css('div')[11].text
-        end
-        if @detail.css('table')[254].css('div')[13].nil?
-          edition = "no edition / 無版次"
-        else
-          edition = @detail.css('table')[254].css('div')[13].text
-        end
-
-        puts book_name
-        @books << Course.new({
-            :book_category => book_category,
-            :detailed_book_category => detailed_book_category,
+          @books << Course.new({
             :book_name => book_name,
-            :book_number => book_number,
-            :price => price,
-            :selling_price => selling_price,
+            :author => author,
+            :publish_year => publish_year,
+            :jcbooks_ISBN => jcbooks_ISBN,
             :isbn => isbn,
-            :author_translator => author_translator,
-            :edition => edition
-          }).to_hash
-      @tmp_rul = @now_url
-      # progress
-      @progress += 1
-      hello = @progress/@all_task * 100
-      puts "now => #{hello} %"
-      }
+            :price => price,
+            :sub_url => sub_url
+            }).to_hash
+        end
+      end
     end
-    
-    puts "\n\n"
-    puts @books
-    end
-  
 
-    def save_to(filename='courses_p1.json')
-	    File.open(filename, 'w') {|f| f.write(JSON.pretty_generate(@books))}
-	  end
     
   end
+  
+
+  def save_to(filename='courses_p1.json')
+    File.open(filename, 'w') {|f| f.write(JSON.pretty_generate(@books))}
+  end
+    
+end
 
 
 
@@ -146,5 +95,5 @@ class Spider
 
 spider = Spider.new
 spider.prepare_post_data
-spider.get_courses
+spider.get_books
 spider.save_to
